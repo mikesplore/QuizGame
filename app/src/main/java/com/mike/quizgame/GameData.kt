@@ -9,9 +9,9 @@ data class Question(
 
 val questions = listOf(
     Question(
-        question = "What is the capital of France?",
+        question = "What is the capital of Kenya?",
         answers = listOf("London", "Nairobi", "Paris", "Rome"),
-        correctAnswer = "Paris"
+        correctAnswer = "Nairobi"
     ),
     Question(
         question = "Which planet is known as the Red Planet?",

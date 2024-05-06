@@ -74,6 +74,8 @@ fun GameScreen() {
                     )
             }
 
+            
+
         }
         Column(modifier = Modifier
             .absolutePadding(0.dp,200.dp),
