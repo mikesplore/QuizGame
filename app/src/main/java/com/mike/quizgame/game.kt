@@ -34,8 +34,7 @@ val brush = Brush.verticalGradient(
         Color(0xffFFE0B5),
         )
 )
-// GameScreen.kt
-// GameScreen.kt
+
 @Composable
 fun GameScreen() {
     val score = remember { mutableStateOf(0) }
