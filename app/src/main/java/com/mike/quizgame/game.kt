@@ -120,7 +120,7 @@ fun GameScreen() {
                             colors = ButtonDefaults.buttonColors(Color(0xff3C2A21))
                         ) {
                             Text(text = answer,
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Normal,
                                 fontFamily = FontFamily.SansSerif,
                                 color = Color.White,)
