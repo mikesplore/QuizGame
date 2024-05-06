@@ -40,7 +40,7 @@ val brush = Brush.verticalGradient(
 fun GameScreen() {
     val score = remember { mutableStateOf(0) }
     val currentQuestionIndex = remember { mutableStateOf(0) }
-    val currentQuestion = questions[currentQuestionIndex.value]
+    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.first() }
 
     Column(
         modifier = Modifier
@@ -50,7 +50,6 @@ fun GameScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // Add score display at the top
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -73,7 +72,7 @@ fun GameScreen() {
                     fontFamily = FontFamily.SansSerif,
                     textAlign = TextAlign.Center,
 
-                )
+                    )
             }
 
         }
@@ -86,48 +85,48 @@ fun GameScreen() {
                 .height(200.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center) {
-            Text(
-                text = currentQuestion.question,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif,
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 16.dp),
-                lineHeight = 50.sp
-            )
+                Text(
+                    text = currentQuestion.question,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    lineHeight = 50.sp
+                )
             }
 
-        val pairs = currentQuestion.answers.chunked(2)
-        pairs.forEach { pair ->
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                pair.forEach { answer ->
-                    Button(
-                        onClick = {
-                            if (answer == currentQuestion.correctAnswer) {
-                                currentQuestionIndex.value++
-                                score.value += 10
-                            }
-                        },
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .width(150.dp),
-                        shape = RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xff3C2A21))
-                    ) {
-                        Text(text = answer,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = FontFamily.SansSerif,
-                            color = Color.White,)
+            val pairs = currentQuestion.answers.chunked(2)
+            pairs.forEach { pair ->
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    pair.forEach { answer ->
+                        Button(
+                            onClick = {
+                                if (answer == currentQuestion.correctAnswer) {
+                                    currentQuestionIndex.value++
+                                    score.value += 10
+                                }
+                            },
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .width(150.dp),
+                            shape = RoundedCornerShape(20.dp),
+                            colors = ButtonDefaults.buttonColors(Color(0xff3C2A21))
+                        ) {
+                            Text(text = answer,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Normal,
+                                fontFamily = FontFamily.SansSerif,
+                                color = Color.White,)
+                        }
                     }
                 }
-            }
 
             }
         }
@@ -140,19 +139,20 @@ fun GameScreen() {
             horizontalArrangement = Arrangement.SpaceEvenly) {
 
 
-        Button(onClick = {
-                         score.value = 0
-        },
-            modifier = Modifier.width(150.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xff6C3428)),
-            shape = RoundedCornerShape(20.dp)) {
-            Text(text = "Restart",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Normal,
-                fontFamily = FontFamily.SansSerif,
-                color = Color.White,)
+            Button(onClick = {
+                score.value = 0
+                currentQuestionIndex.value = 0
+            },
+                modifier = Modifier.width(150.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xff6C3428)),
+                shape = RoundedCornerShape(20.dp)) {
+                Text(text = "Restart",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.White,)
 
-        }
+            }
             Button(onClick = { /*TODO*/ },
                 modifier = Modifier.width(150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xff6C3428)),
@@ -168,6 +168,7 @@ fun GameScreen() {
 
     }
 }
+
 
 
 
