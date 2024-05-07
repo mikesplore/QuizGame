@@ -38,6 +38,7 @@ val brush = Brush.verticalGradient(
 @Composable
 fun GameScreen() {
     val score = remember { mutableStateOf(0) }
+    val questionsize = questions.size
     val currentQuestionIndex = remember { mutableStateOf(0) }
     val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.first() }
 
@@ -64,7 +65,7 @@ fun GameScreen() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center){
                 Text(
-                    text = "${score.value}",
+                    text = "$questionsize",//"${score.value}",
                     fontSize = 30.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
@@ -96,6 +97,7 @@ fun GameScreen() {
                     modifier = Modifier.padding(vertical = 16.dp),
                     lineHeight = 50.sp
                 )
+                
             }
 
             val pairs = currentQuestion.answers.chunked(2)
