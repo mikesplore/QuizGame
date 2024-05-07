@@ -40,7 +40,11 @@ fun GameScreen() {
     val score = remember { mutableStateOf(0) }
     val questionsize = questions.size
     val currentQuestionIndex = remember { mutableStateOf(0) }
-    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.first() }
+    val shuffledQuestions = remember { questions.shuffled() }
+
+    val currentQuestion = remember {
+        mutableStateOf(shuffledQuestions[currentQuestionIndex.value % shuffledQuestions.size])
+    }
 
     Column(
         modifier = Modifier
@@ -65,7 +69,7 @@ fun GameScreen() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center){
                 Text(
-                    text = "$questionsize",//"${score.value}",
+                    text = "${score.value}",
                     fontSize = 30.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
@@ -74,21 +78,22 @@ fun GameScreen() {
 
                     )
             }
-
-            
-
         }
-        Column(modifier = Modifier
-            .absolutePadding(0.dp,200.dp),
+        Column(
+            modifier = Modifier
+                .absolutePadding(0.dp,200.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally){
-            Row(modifier = Modifier
-                .width(300.dp)
-                .height(200.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(200.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text(
-                    text = currentQuestion.question,
+                    text = currentQuestion.value.question,
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif,
@@ -97,10 +102,9 @@ fun GameScreen() {
                     modifier = Modifier.padding(vertical = 16.dp),
                     lineHeight = 50.sp
                 )
-                
             }
 
-            val pairs = currentQuestion.answers.chunked(2)
+            val pairs = currentQuestion.value.answers.chunked(2)
             pairs.forEach { pair ->
                 Row(
                     modifier = Modifier
@@ -111,10 +115,10 @@ fun GameScreen() {
                     pair.forEach { answer ->
                         Button(
                             onClick = {
-                                if (answer == currentQuestion.correctAnswer) {
-                                    currentQuestionIndex.value++
+                                if (answer == currentQuestion.value.correctAnswer) {
                                     score.value += 10
                                 }
+                                currentQuestionIndex.value++
                             },
                             modifier = Modifier
                                 .padding(5.dp)
@@ -122,11 +126,13 @@ fun GameScreen() {
                             shape = RoundedCornerShape(20.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xff3C2A21))
                         ) {
-                            Text(text = answer,
+                            Text(
+                                text = answer,
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Normal,
                                 fontFamily = FontFamily.SansSerif,
-                                color = Color.White,)
+                                color = Color.White,
+                            )
                         }
                     }
                 }
@@ -134,43 +140,50 @@ fun GameScreen() {
             }
         }
 
-        Row(modifier = Modifier
-            .height(200.dp)
-            .fillMaxWidth()
-            .fillMaxWidth(),
+        Row(
+            modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth()
+                .fillMaxWidth(),
             verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceEvenly) {
-
-
-            Button(onClick = {
-                score.value = 0
-                currentQuestionIndex.value = 0
-            },
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(
+                onClick = {
+                    score.value = 0
+                    currentQuestionIndex.value++
+                },
                 modifier = Modifier.width(150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xff6C3428)),
-                shape = RoundedCornerShape(20.dp)) {
-                Text(text = "Restart",
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Text(
+                    text = "Restart",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = FontFamily.SansSerif,
-                    color = Color.White,)
-
+                    color = Color.White,
+                )
             }
-            Button(onClick = { /*TODO*/ },
+            Button(
+                onClick = { /*TODO*/ },
                 modifier = Modifier.width(150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xff6C3428)),
-                shape = RoundedCornerShape(20.dp)) {
-                Text(text = "End",
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Text(
+                    text = "End",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = FontFamily.SansSerif,
-                    color = Color.White,)
-
+                    color = Color.White,
+                )
             }
         }
-
     }
 }
+
+
 
 
 
