@@ -42,7 +42,7 @@ fun GameScreen() {
     val currentQuestionIndex = remember { mutableStateOf(0) }
     val shuffledQuestions = remember { questions.shuffled() }
 
-    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.random() }
+    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.last() }
 
     Column(
         modifier = Modifier
