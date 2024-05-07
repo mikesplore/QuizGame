@@ -42,9 +42,7 @@ fun GameScreen() {
     val currentQuestionIndex = remember { mutableStateOf(0) }
     val shuffledQuestions = remember { questions.shuffled() }
 
-    val currentQuestion = remember {
-        mutableStateOf(shuffledQuestions[currentQuestionIndex.value % shuffledQuestions.size])
-    }
+    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.random() }
 
     Column(
         modifier = Modifier
@@ -93,7 +91,7 @@ fun GameScreen() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = currentQuestion.value.question,
+                    text = currentQuestion.question,
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif,
@@ -104,7 +102,7 @@ fun GameScreen() {
                 )
             }
 
-            val pairs = currentQuestion.value.answers.chunked(2)
+            val pairs = currentQuestion.answers.chunked(2)
             pairs.forEach { pair ->
                 Row(
                     modifier = Modifier
@@ -115,7 +113,7 @@ fun GameScreen() {
                     pair.forEach { answer ->
                         Button(
                             onClick = {
-                                if (answer == currentQuestion.value.correctAnswer) {
+                                if (answer == currentQuestion.correctAnswer) {
                                     score.value += 10
                                 }
                                 currentQuestionIndex.value++
