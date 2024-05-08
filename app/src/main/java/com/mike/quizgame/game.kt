@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -85,8 +86,15 @@ fun GameScreen() {
         ) {
             Row(
                 modifier = Modifier
-                    .width(300.dp)
+                    .width(350.dp)
+                    .shadow(
+                        elevation = 10.dp,
+                        ambientColor = Color.Red,
+
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .height(200.dp),
+
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -123,6 +131,7 @@ fun GameScreen() {
                                 .padding(5.dp)
                                 .width(150.dp),
                             shape = RoundedCornerShape(20.dp),
+                            elevation = ButtonDefaults.buttonElevation(15.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xff3C2A21))
                         ) {
                             Text(
