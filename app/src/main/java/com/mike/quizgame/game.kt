@@ -42,7 +42,7 @@ fun GameScreen() {
     val currentQuestionIndex = remember { mutableStateOf(0) }
     val shuffledQuestions = remember { questions.shuffled() }
 
-    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.last() }
+    val currentQuestion = questions.getOrElse(currentQuestionIndex.value % questions.size) { questions.first() }
 
     Column(
         modifier = Modifier
@@ -115,8 +115,9 @@ fun GameScreen() {
                             onClick = {
                                 if (answer == currentQuestion.correctAnswer) {
                                     score.value += 10
+                                    currentQuestionIndex.value++
                                 }
-                                currentQuestionIndex.value++
+
                             },
                             modifier = Modifier
                                 .padding(5.dp)
